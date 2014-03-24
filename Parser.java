@@ -28,11 +28,23 @@ public class Parser {
     
     private void parseToHex(){
         for(int i = 0; i < _Input.size(); ++i){
-            String[] opcodes = _Input.get(i).split("\\s+");
-                String opcode = opcodes[0];
-                System.out.println("0x" + Integer.toHexString(getOpcode(opcode)));
+            String[] segments = _Input.get(i).split("\\s+");
+            for(int j = 0; j < segments.length; ++j){
+                if(j == 0){
+                    System.out.print("0x" + Integer.toHexString(getOpcode(segments[j])).toUpperCase() + " ");
+                } else {
+                    System.out.print("0x" + segments[j].toUpperCase() + " ");
+                }
+            }
+            System.out.println();
         }
     }
+    
+    /* 
+    TODO: Parse string to opcode + segments
+    MOV a b ->> MOV, a, b
+    Parse brackets [ and ]
+    */
     
     private int getOpcode(String index){
         return (int)_OpcodeList.get(index);
