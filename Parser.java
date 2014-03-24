@@ -30,16 +30,14 @@ public class Parser {
         for(int i = 0; i < _Input.size(); ++i){
             String[] opcodes = _Input.get(i).split("\\s+");
                 String opcode = opcodes[0];
-                System.out.println(opcode);
+                System.out.println("0x" + Integer.toHexString(getOpcode(opcode)));
         }
     }
     
     private int getOpcode(String index){
-        /* TODO: hex conversion
-            System.out.println("0x" + Integer.toHexString(getOpcode("HALT")));
-        */
         return (int)_OpcodeList.get(index);
     }
+    
     private void initOpcodes() {
         //Logic
         _OpcodeList.put("AND", 0x00);
