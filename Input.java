@@ -17,15 +17,19 @@ import java.util.List;
  */
 public class Input {
 
-    private List<String> _Input;
+    private final List<String> _Input;
     private static final String FILE_LOCATION = "D:\\Programming\\Netbeans\\DailyProgrammer132\\src\\dailyprogrammer132\\code.txt";
 
     public Input() {
         _Input = new ArrayList<>();
-        findWords();
+        readInputFromFile();
     }
 
-    private void findWords() {
+    public List<String> getInput() {
+        return _Input;
+    }
+
+    private void readInputFromFile() {
         BufferedReader br = null;
         try {
             String sLine;

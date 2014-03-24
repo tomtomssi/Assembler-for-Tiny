@@ -5,7 +5,9 @@
  */
 package dailyprogrammer132;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -14,13 +16,17 @@ import java.util.HashMap;
 public class Parser {
 
     private final HashMap _Opcode = new HashMap();
+    private List<String> _Input = new ArrayList<>();
 
     public Parser() {
+        //Read from file
+        Input i = new Input();
+        _Input = i.getInput();
         initOpcodes();
-        int x = (int) _Opcode.get("OR");
+        //int x = (int) _Opcode.get("OR");
     }
 
-    public void initOpcodes() {
+    private void initOpcodes() {
         //Logic
         _Opcode.put("AND", 0x00);
         _Opcode.put("OR", 0x02);
