@@ -16,11 +16,11 @@ public class Parser {
     private final HashMap _Opcode = new HashMap();
 
     public Parser() {
-        initOPCODE();
+        initOpcodes();
         int x = (int) _Opcode.get("OR");
     }
 
-    public void initOPCODE() {
+    public void initOpcodes() {
         //Logic
         _Opcode.put("AND", 0x00);
         _Opcode.put("OR", 0x02);

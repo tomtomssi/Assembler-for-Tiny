@@ -16,7 +16,7 @@ public class DailyProgrammer132 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Parser p = new Parser();
+        
     }
     
 }
