@@ -29,13 +29,7 @@ public class Parser {
     private void parseToHex(){
         for(int i = 0; i < _Input.size(); ++i){
             String[] segments = _Input.get(i).split("\\s+");
-            for(int j = 0; j < segments.length; ++j){
-                if(j == 0){
-                    System.out.print("0x" + Integer.toHexString(getOpcode(segments[j])).toUpperCase() + " ");
-                } else {
-                    System.out.print("0x" + segments[j].toUpperCase() + " ");
-                }
-            }
+            parseByLength(segments.length, segments);
             System.out.println();
         }
     }
@@ -46,8 +40,28 @@ public class Parser {
     Parse brackets [ and ]
     */
     
-    private int getOpcode(String index){
-        return (int)_OpcodeList.get(index);
+    private void parseByLength(int l, String[] segments){
+        switch(l){
+                case 1:
+                    System.out.println(getOpcode(segments[0]));
+                    break;
+                case 2:
+                    System.out.println("Kaksi");
+                    break;
+                case 3:
+                    System.out.println("Kolme");
+                    break;
+                case 4:
+                    System.out.println("Neljä");
+                    break;
+                default:
+                    System.out.println("DEFAULT");
+                    break;
+            }
+    }
+    
+    private String getOpcode(String index){
+        return "0x" + Integer.toHexString((int)_OpcodeList.get(index));
     }
     
     private void initOpcodes() {
