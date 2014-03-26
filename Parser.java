@@ -82,9 +82,11 @@ public class Parser {
                 break;
         }
         
-        System.out.print("0x" + Integer.toHexString(getOpcodeInt(segments[0]) + opcode) + " ");
-        
-        for(int i = 1; i < segments.length; ++i){
+        for(int i = 0; i < segments.length; ++i){
+            if( i == 0){
+                System.out.print("0x" + Integer.toHexString(getOpcodeInt(segments[0]) + opcode) + " ");
+                continue;
+            }
             System.out.print("0x" + Integer.toHexString(Integer.parseInt(segments[i].replaceAll("\\[|\\]", ""))) + " ");
         }
     }
