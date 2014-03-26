@@ -42,13 +42,13 @@ public class Parser {
     private void parseByLength(int l, String[] segments) {
         switch (l) {
             case 1:
-                System.out.println( "0x" + getOpcode(segments[0]));
+                System.out.println("0x" + getOpcodeHexString(segments[0]));
                 break;
             case 2:
-                parseTwoBytes(segments);
+                //parseTwoBytes(segments);
                 break;
             case 3:
-                parseTwoBytes(segments);
+                //parseTwoBytes(segments);
                 break;
             case 4:
                 parseTwoBytes(segments);
@@ -60,15 +60,41 @@ public class Parser {
     }
 
     private void parseTwoBytes(String[] segments) {
-        byte b = 000;
-        for(int i = 1; i < segments.length; ++i){
-            if(segments[i].contains("[")) b = (byte) (b | (1 << i - 1));
+        int opcode = 0;
+        byte b = 0; // 111 110 011 010
+        for (int i = 1; i < segments.length; ++i) {
+            if (segments[i].contains("[")) {
+                b = (byte) (b | (1 << i - 1));
+            }
         }
-        System.out.println("BYTE: " + Integer.toBinaryString(b));
+
+        switch (b) {
+            case 6:
+                opcode += 1;
+                break;
+            case 3:
+                opcode += 2;
+                break;
+            case 2:
+                opcode += 3;
+                break;
+            default:
+                break;
+        }
+        
+        System.out.print("0x" + Integer.toHexString(getOpcodeInt(segments[0]) + opcode) + " ");
+        
+        for(int i = 1; i < segments.length; ++i){
+            System.out.print("0x" + Integer.toHexString(Integer.parseInt(segments[i].replaceAll("\\[|\\]", ""))) + " ");
+        }
     }
 
-    private String getOpcode(String index) {
+    private String getOpcodeHexString(String index) {
         return Integer.toHexString((int) _OpcodeList.get(index));
+    }
+    
+    private int getOpcodeInt(String index) {
+        return (int) _OpcodeList.get(index);
     }
 
     private void initOpcodes() {
