@@ -25,45 +25,78 @@ public class Parser {
         initOpcodes();
         parseToHex();
     }
-    
-    private void parseToHex(){
-        for(int i = 0; i < _Input.size(); ++i){
+
+    private void parseToHex() {
+        for (int i = 0; i < _Input.size(); ++i) {
             String[] segments = _Input.get(i).split("\\s+");
             parseByLength(segments.length, segments);
             System.out.println();
         }
     }
-    
+
     /* 
-    TODO: Parse string to opcode + segments
-    MOV a b ->> MOV, a, b
-    Parse brackets [ and ]
-    */
-    
-    private void parseByLength(int l, String[] segments){
-        switch(l){
-                case 1:
-                    System.out.println(getOpcode(segments[0]));
-                    break;
-                case 2:
-                    System.out.println("Kaksi");
-                    break;
-                case 3:
-                    System.out.println("Kolme");
-                    break;
-                case 4:
-                    System.out.println("Neljä");
-                    break;
-                default:
-                    System.out.println("DEFAULT");
-                    break;
+     TODO: Parse string to opcode + segments
+     MOV a b ->> MOV, a, b
+     Parse brackets [ and ]
+     */
+    private void parseByLength(int l, String[] segments) {
+        switch (l) {
+            case 1:
+                System.out.println("0x" + getOpcodeHexString(segments[0]));
+                break;
+            case 2:
+                //parseTwoBytes(segments);
+                break;
+            case 3:
+                //parseTwoBytes(segments);
+                break;
+            case 4:
+                parseTwoBytes(segments);
+                break;
+            default:
+                System.out.println("DEFAULT");
+                break;
+        }
+    }
+
+    private void parseTwoBytes(String[] segments) {
+        int opcode = 0;
+        byte b = 0; // 111 110 011 010
+        for (int i = 1; i < segments.length; ++i) {
+            if (segments[i].contains("[")) {
+                b = (byte) (b | (1 << i - 1));
             }
+        }
+
+        switch (b) {
+            case 6:
+                opcode += 1;
+                break;
+            case 3:
+                opcode += 2;
+                break;
+            case 2:
+                opcode += 3;
+                break;
+            default:
+                break;
+        }
+        
+        System.out.print("0x" + Integer.toHexString(getOpcodeInt(segments[0]) + opcode) + " ");
+        
+        for(int i = 1; i < segments.length; ++i){
+            System.out.print("0x" + Integer.toHexString(Integer.parseInt(segments[i].replaceAll("\\[|\\]", ""))) + " ");
+        }
+    }
+
+    private String getOpcodeHexString(String index) {
+        return Integer.toHexString((int) _OpcodeList.get(index));
     }
     
-    private String getOpcode(String index){
-        return "0x" + Integer.toHexString((int)_OpcodeList.get(index));
+    private int getOpcodeInt(String index) {
+        return (int) _OpcodeList.get(index);
     }
-    
+
     private void initOpcodes() {
         //Logic
         _OpcodeList.put("AND", 0x00);
