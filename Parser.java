@@ -40,37 +40,21 @@ public class Parser {
                 System.out.println("0x" + getOpcodeHexString(segments[0]));
                 break;
             case 2:
-                parseFourBytes(segments);
+                parseByBitCount(segments);
                 break;
             case 3:
-                parseThreeBytes(segments);
+                parseByBitCount(segments);
                 break;
             case 4:
-                parseFourBytes(segments);
+                parseByBitCount(segments);
                 break;
             default:
                 System.out.println("DEFAULT");
                 break;
         }
     }
-    
-    private void parseThreeBytes(String[] segments){
-        int opcode = 0;
-        byte b = 0; // 111 110 011 010
-        for (int i = 1; i < segments.length; ++i) {
-            if (segments[i].contains("[")) {
-                b = (byte) (b | (1 << i - 1));
-            }
-        }
-        if(b == 1) opcode++;
-        System.out.print("0x" + Integer.toHexString(getOpcodeInt(segments[0]) + opcode) + " ");
-         for(int i = 1; i < segments.length; ++i){
-             System.out.print("0x" + Integer.toHexString(Integer.parseInt(segments[i].replaceAll("\\[|\\]", ""))) + " ");
-         }
-        
-    }
-    
-    private void parseFourBytes(String[] segments) {
+
+    private void parseByBitCount(String[] segments) {
         int opcode = 0;
         byte b = 0; // 111 110 011 010
         for (int i = 1; i < segments.length; ++i) {
@@ -84,17 +68,21 @@ public class Parser {
                 opcode += 1;
                 break;
             case 3:
-                opcode += 2;
+                if (segments.length < 4) break;
+                    opcode += 2;
                 break;
             case 2:
                 opcode += 3;
                 break;
+            case 1:
+                opcode += 1;
+                break;
             default:
                 break;
         }
-        
-        for(int i = 0; i < segments.length; ++i){
-            if(i == 0){
+
+        for (int i = 0; i < segments.length; ++i) {
+            if (i == 0) {
                 System.out.print("0x" + Integer.toHexString(getOpcodeInt(segments[0]) + opcode) + " ");
                 continue;
             }
@@ -105,7 +93,7 @@ public class Parser {
     private String getOpcodeHexString(String index) {
         return Integer.toHexString((int) _OpcodeList.get(index));
     }
-    
+
     private int getOpcodeInt(String index) {
         return (int) _OpcodeList.get(index);
     }
