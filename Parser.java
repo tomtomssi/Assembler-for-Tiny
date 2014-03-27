@@ -45,21 +45,37 @@ public class Parser {
                 System.out.println("0x" + getOpcodeHexString(segments[0]));
                 break;
             case 2:
-                //parseTwoBytes(segments);
+                parseFourBytes(segments);
                 break;
             case 3:
-                //parseTwoBytes(segments);
+                parseThreeBytes(segments);
                 break;
             case 4:
-                parseTwoBytes(segments);
+                parseFourBytes(segments);
                 break;
             default:
                 System.out.println("DEFAULT");
                 break;
         }
     }
-
-    private void parseTwoBytes(String[] segments) {
+    
+    private void parseThreeBytes(String[] segments){
+        int opcode = 0;
+        byte b = 0; // 111 110 011 010
+        for (int i = 1; i < segments.length; ++i) {
+            if (segments[i].contains("[")) {
+                b = (byte) (b | (1 << i - 1));
+            }
+        }
+        if(b == 1) opcode++;
+        System.out.print("0x" + Integer.toHexString(getOpcodeInt(segments[0]) + opcode) + " ");
+         for(int i = 1; i < segments.length; ++i){
+             System.out.print("0x" + Integer.toHexString(Integer.parseInt(segments[i].replaceAll("\\[|\\]", ""))) + " ");
+         }
+        
+    }
+    
+    private void parseFourBytes(String[] segments) {
         int opcode = 0;
         byte b = 0; // 111 110 011 010
         for (int i = 1; i < segments.length; ++i) {
@@ -83,7 +99,7 @@ public class Parser {
         }
         
         for(int i = 0; i < segments.length; ++i){
-            if( i == 0){
+            if(i == 0){
                 System.out.print("0x" + Integer.toHexString(getOpcodeInt(segments[0]) + opcode) + " ");
                 continue;
             }
@@ -107,7 +123,7 @@ public class Parser {
         _OpcodeList.put("NOT", 0x06);
 
         //Memory
-        _OpcodeList.put("MOV", 0x0);
+        _OpcodeList.put("MOV", 0x7);
 
         //Math
         _OpcodeList.put("RANDOM", 0x09);
