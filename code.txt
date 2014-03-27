@@ -1,1 +1,4 @@
-APRINT 1
+JEQ 1 [1] 1
+MOV [2] [2]
+MOV [2] 1
+NOT [2]

@@ -34,11 +34,6 @@ public class Parser {
         }
     }
 
-    /* 
-     TODO: Parse string to opcode + segments
-     MOV a b ->> MOV, a, b
-     Parse brackets [ and ]
-     */
     private void parseByLength(int l, String[] segments) {
         switch (l) {
             case 1:
